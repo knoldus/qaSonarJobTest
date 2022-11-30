@@ -1,0 +1,30 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches:
+      - master
+name: Main Workflow
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: 3a614ba7ab2b904d993aad4fffcdc234cd541ee2
+      with:
+        args: >
+          -Dsonar.organization=joshuamartel
+          -Dsonar.projectKey=repocloud1
+          -Dsonar.sources=.   
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.branch.name=master
